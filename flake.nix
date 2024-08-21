@@ -16,9 +16,9 @@
 
       runtimeLibs = with pkgs; [
         libGL stdenv.cc.cc fontconfig libxkbcommon zlib freetype
-        gtk3 libxml2 dbus xcb-util-cursor alsa-lib
+        gtk3 libxml2 dbus xcb-util-cursor alsa-lib pango atk cairo gdk-pixbuf glib
       ] ++ (with pkgs.xorg; [
-        libxcb libX11 libXcursor libXrandr libXi
+        libxcb libX11 libXcursor libXrandr libXi libXext libXcomposite libXdamage libXfixes
       ]);
     in
     {
@@ -42,6 +42,14 @@
 	  chmod 755 $out/bin/*
           patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $out/bin/zen
           wrapProgram $out/bin/zen --set LD_LIBRARY_PATH "${pkgs.lib.makeLibraryPath runtimeLibs}"
+          patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $out/bin/zen-bin
+          wrapProgram $out/bin/zen-bin --set LD_LIBRARY_PATH "${pkgs.lib.makeLibraryPath runtimeLibs}"
+          patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $out/bin/glxtest
+          wrapProgram $out/bin/glxtest --set LD_LIBRARY_PATH "${pkgs.lib.makeLibraryPath runtimeLibs}"
+          patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $out/bin/updater
+          wrapProgram $out/bin/updater --set LD_LIBRARY_PATH "${pkgs.lib.makeLibraryPath runtimeLibs}"
+          patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $out/bin/vaapitest
+          wrapProgram $out/bin/vaapitest --set LD_LIBRARY_PATH "${pkgs.lib.makeLibraryPath runtimeLibs}"
         '';
       };
     };
