@@ -38,8 +38,8 @@
 
 	installPhase = ''
 	  mkdir -p $out/bin && cp -r $src/* $out/bin
-	  mkdir -p $out/share/applications
 	  install -D $desktopSrc/zen.desktop $out/share/applications/dev.zen.Zen.desktop
+	  install -D $src/browser/chrome/icons/default/default128.png $out/share/icons/hicolor/128x128/apps/zen.png
 	'';
 
 	fixupPhase = ''
