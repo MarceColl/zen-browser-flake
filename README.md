@@ -14,7 +14,7 @@ inputs = {
 Then in the `configuration.nix` in the `environment.systemPackages` add
 
 ```nix
-inputs.zen-browser."${system}".default
+inputs.zen-browser.packages."${system}".default
 ```
 
 ```shell
