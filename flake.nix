@@ -26,16 +26,20 @@
         name = "zen-browser";
 
 	src = builtins.fetchTarball {
-	  url = downloadUrl;
-	  sha256 = "sha256:1z81dg3xgfpkyj501gflx8lw7d8124iqwm27zqfja2b47zf4ai2x";
-	};
+		  url = downloadUrl;
+		  sha256 = "sha256:1z81dg3xgfpkyj501gflx8lw7d8124iqwm27zqfja2b47zf4ai2x";
+		};
+	
+	desktopSrc = ./.;
 
 	phases = [ "installPhase" "fixupPhase" ];
 
-	nativeBuildInputs = [ pkgs.makeWrapper ] ;
+	nativeBuildInputs = [ pkgs.makeWrapper pkgs.copyDesktopItems ] ;
 
 	installPhase = ''
 	  mkdir -p $out/bin && cp -r $src/* $out/bin
+	  mkdir -p $out/share/applications
+	  install -D $desktopSrc/zen.desktop $out/share/applications/dev.zen.Zen.desktop
 	'';
 
 	fixupPhase = ''
