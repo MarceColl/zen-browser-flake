@@ -8,7 +8,7 @@
   outputs = { self, nixpkgs }:
     let
       system = "x86_64-linux";
-      version = "1.0.0-a.26";
+      version = "1.0.0-a.27";
       downloadUrl = "https://github.com/zen-browser/desktop/releases/download/${version}/zen.linux-specific.tar.bz2";
       pkgs = import nixpkgs {
         inherit system;
@@ -34,7 +34,7 @@
 
 	phases = [ "installPhase" "fixupPhase" ];
 
-	nativeBuildInputs = [ pkgs.makeWrapper pkgs.copyDesktopItems ] ;
+	nativeBuildInputs = [ pkgs.makeWrapper pkgs.copyDesktopItems pkgs.wrapGAppsHook ] ;
 
 	installPhase = ''
 	  mkdir -p $out/bin && cp -r $src/* $out/bin
