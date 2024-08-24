@@ -27,8 +27,11 @@
       runtimeLibs = with pkgs; [
         libGL stdenv.cc.cc fontconfig libxkbcommon zlib freetype
         gtk3 libxml2 dbus xcb-util-cursor alsa-lib pango atk cairo gdk-pixbuf glib
+	udev libva mesa libnotify cups pciutils
+	ffmpeg libglvnd
       ] ++ (with pkgs.xorg; [
-        libxcb libX11 libXcursor libXrandr libXi libXext libXcomposite libXdamage libXfixes
+        libxcb libX11 libXcursor libXrandr libXi libXext libXcomposite libXdamage
+	libXfixes libXScrnSaver
       ]);
 
       mkZen = { variant }: 
