@@ -68,6 +68,8 @@
 		  patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $out/bin/vaapitest
 		  wrapProgram $out/bin/vaapitest --set LD_LIBRARY_PATH "${pkgs.lib.makeLibraryPath runtimeLibs}"
 		'';
+
+    meta.mainProgram = "zen";
 	      };
     in
     {
