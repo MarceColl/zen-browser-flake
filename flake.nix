@@ -8,15 +8,15 @@
   outputs = { self, nixpkgs }:
     let
       system = "x86_64-linux";
-      version = "1.0.0-a.28";
+      version = "1.0.0-a.30";
       downloadUrl = {
         "specific" = {
 	  url = "https://github.com/zen-browser/desktop/releases/download/${version}/zen.linux-specific.tar.bz2";
-	  sha256 = "sha256:1vq7k3qwfdx70frng5p308zwnih86bwz75zpzcb1lbf3xsliz702";
+	  sha256 = "sha256:07y6h2xwqja9a9k0w9iqnd9hy06w6n320maaii7cqh6khx259cqm";
 	};
 	"generic" = {
 	  url = "https://github.com/zen-browser/desktop/releases/download/${version}/zen.linux-generic.tar.bz2";
-	  sha256 = "sha256:154q0yl7s8v87dcpig8ixl607iqn1iv8mrlb82cldb1xn5gvlw5x";
+	  sha256 = "sha256:1nlaphylrrbsd2rmn1h5ml9wmxwshys04svpf5v8fv8ndihjyfj8";
 	};
       };
 
@@ -25,8 +25,9 @@
       };
 
       runtimeLibs = with pkgs; [
-        libGL stdenv.cc.cc fontconfig libxkbcommon zlib freetype
-        gtk3 libxml2 dbus xcb-util-cursor alsa-lib pango atk cairo gdk-pixbuf glib
+        libGL libGLU libevent libffi libjpeg libpng libstartup_notification libvpx libwebp
+        stdenv.cc.cc fontconfig libxkbcommon zlib freetype
+        gtk3 libxml2 dbus xcb-util-cursor alsa-lib libpulseaudio pango atk cairo gdk-pixbuf glib
 	udev libva mesa libnotify cups pciutils
 	ffmpeg libglvnd pipewire
       ] ++ (with pkgs.xorg; [
@@ -39,7 +40,8 @@
 	  downloadData = downloadUrl."${variant}";
 	in
              pkgs.stdenv.mkDerivation {
-		name = "zen-browser";
+    inherit version;
+		pname = "zen-browser";
 
 		src = builtins.fetchTarball {
 		  url = downloadData.url;
@@ -54,7 +56,7 @@
 
 		installPhase = ''
 		  mkdir -p $out/bin && cp -r $src/* $out/bin
-		  install -D $desktopSrc/zen.desktop $out/share/applications/dev.zen.Zen.desktop
+		  install -D $desktopSrc/zen.desktop $out/share/applications/zen.desktop
 		  install -D $src/browser/chrome/icons/default/default128.png $out/share/icons/hicolor/128x128/apps/zen.png
 		'';
 
