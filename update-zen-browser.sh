@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-upstream=$(./new-version.sh | tee version)
+upstream=$(./new-version.sh | cat -)
 
 echo "Updating to $upstream"
 
 baseUrl="https://github.com/zen-browser/desktop/releases/download/$upstream"
 
-# Modiyf with sed the nix file
+# Modify with sed the nix file
 sed -i "s/version = \".*\"/version = \"$upstream\"/" ./flake.nix
 
 # Update the hash specific.sha256
