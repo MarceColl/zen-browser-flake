@@ -1,0 +1,38 @@
+name: Update Zen Browser Version
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Run daily at midnight
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get latest release
+        id: get_release
+        uses: octokit/request-action@v2.x
+        with:
+          route: GET /repos/zen-browser/desktop/releases/latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract version
+        id: extract_version
+        run: |
+          VERSION=$(echo '${{ steps.get_release.outputs.data }}' | jq -r .tag_name)
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update flake.nix
+        run: |
+          sed -i 's/version = "[^"]*"/version = "${{ steps.extract_version.outputs.VERSION }}"/' flake.nix
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add flake.nix
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update Zen Browser to ${{ steps.extract_version.outputs.VERSION }}" && git push)
