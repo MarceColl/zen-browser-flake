@@ -35,10 +35,10 @@ jobs:
         run: |
           sed -i 's/version = "[^"]*"/version = "${{ steps.extract_version.outputs.VERSION }}"/' flake.nix
           # Update the hash specific.sha256
-          specific=$(nix-prefetch-url --type sha256 --unpack https://github.com/zen-browser/desktop/releases/download/"${{ steps.extract_version.outputs.VERSION }}"/zen.linux-specific.tar.bz2)
+          specific=$(nix-prefetch-url --type sha256 --unpack https://github.com/zen-browser/desktop/releases/download/${{ steps.extract_version.outputs.VERSION }}/zen.linux-specific.tar.bz2)
           sed -i "s/specific.sha256 = \".*\"/specific.sha256 = \"$specific\"/" ./flake.nix
           # Update the hash generic.sha256
-          generic=$(nix-prefetch-url --type sha256 --unpack https://github.com/zen-browser/desktop/releases/download/"${{ steps.extract_version.outputs.VERSION }}"/zen.linux-generic.tar.bz2)
+          generic=$(nix-prefetch-url --type sha256 --unpack https://github.com/zen-browser/desktop/releases/download/${{ steps.extract_version.outputs.VERSION }}/zen.linux-generic.tar.bz2)
           sed -i "s/generic.sha256 = \".*\"/generic.sha256 = \"$generic\"/" ./flake.nix
           nix flake update
 
