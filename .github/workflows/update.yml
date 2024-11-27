@@ -42,8 +42,9 @@ jobs:
           sed -i "s/generic.sha256 = \".*\"/generic.sha256 = \"$generic\"/" ./flake.nix
           nix flake update
 
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Update Zen Browser to v${{ steps.extract_version.outputs.VERSION }}"
-          file_pattern: "*"
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add flake.nix
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update Zen Browser to ${{ steps.extract_version.outputs.VERSION }}" && git push)
