@@ -6,19 +6,19 @@
   outputs = { self, nixpkgs }:
     let
       system = "x86_64-linux";
-      version = "1.0.2-b.0";
+      version = "1.0.2-b.1";
       downloadUrl = {
         "specific" = {
           url =
             "https://github.com/zen-browser/desktop/releases/download/${version}/zen.linux-specific.tar.bz2";
           sha256 =
-            "sha256:067m7g48nfa366ajn3flphnwkx8msc034r6px8ml66mbj7awjw4x";
+            "sha256:1bnalbpzk6alihjsvl9nmzn7zfy9a3dcil8dbrlbfz68jiz88hl1";
         };
         "generic" = {
           url =
             "https://github.com/zen-browser/desktop/releases/download/${version}/zen.linux-generic.tar.bz2";
           sha256 =
-            "sha256:02x4w2fq80s1za05s0gg9r2drr845bln80h5hbwhvp1gxq9jf0g2";
+            "sha256:1bjwcar919hp2drlnirfx8a7nhcglm4kwymknzqxdxxj7x8zi4zr";
         };
       };
 
