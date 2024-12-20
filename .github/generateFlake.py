@@ -52,7 +52,7 @@ def generateFlake(version: str):
     "GENERIC": f"https://github.com/zen-browser/desktop/releases/download/{version}/zen.linux-generic.tar.bz2"
     }
     
-    genericHASH, specificHASH = getSHA256s(genericURL=urls["GENERIC"], specificURL=urls["SPECIFIC"])
+    specificHASH, genericHASH  = getSHA256s(genericURL=urls["GENERIC"], specificURL=urls["SPECIFIC"])
     flakeTemplate = getTemplate()
     flakeContent = generateFlakeContent(
         template=flakeTemplate, 
