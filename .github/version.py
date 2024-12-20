@@ -46,7 +46,7 @@ def updateVersion(newVersion: str):
     versionFile.close()
 
 def githubOutput(version: str, update: bool):
-    githubPath = pathlib.Path(os.environ('GITHUB_OUTPUT'))
+    githubPath = pathlib.Path(os.getenv('GITHUB_OUTPUT'))
     githubPath.touch()
     
     up = "true" if update else "false"
